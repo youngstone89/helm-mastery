@@ -1,0 +1,78 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  fullname: {{ include "demo.fullname" . }}
+  name: {{ .Release.Name }}-configmap
+  namespace: default
+  chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+  template: {{ .Template.Name }}
+  base: {{ .Template.BasePath }}
+data:
+  myvalue: "hello world"
+  drink: {{ .Values.favoriteDrink | quote  }}
+  drink: {{ .Values.favoriteDrink | upper | quote  }}
+  drink: {{ .Values.favoriteDrink | upper | repeat 5 | quote  }}
+  tea: {{ .Values.tea | default "black" | upper | repeat 5 | quote  }}
+  default: {{ .Values.tea | default (printf "%s-tea" (include "demo.fullname" . )) }}
+  trunc: {{ .Values.long | trunc 63 | trimSuffix "-"}}
+  default2: {{ default "foo" .Bar }}
+  ge: {{ ge 1 2 }}
+  and: {{ and true true }}
+  and: {{ and true false }}
+  and: {{ and false false }}
+  or: {{ or false false }}
+  or: {{ or true false }}
+  not: {{ not false }}
+  not: {{ not true }}
+  eq: {{ eq true true  }}
+  eq: {{ eq "A" "A" }}
+  eq: {{ eq "a" "A" }}
+  eq: {{ eq 1 1 }}
+  ne: {{ ne 1 2 }}
+  lt: {{ lt 1 2 }}
+  empty: {{ empty .Foo }}
+  coalesce: {{ coalesce 0 1 2 }}
+  coalesce: {{ coalesce "" "1" 2 }}
+  coalesce: {{ coalesce 0 0 "matt" }}
+  ternary: {{ ternary "yes" "no" true }}
+  print: {{ print "mat has" .Values.favoriteDrink " drinks" }}
+  println: {{ println "mat has" .Values.favoriteDrink " drinks" }}
+  printf: {{ printf "%s has %v dogs." .Values.Name .Values.NumberDogs }}
+  trim: {{ trim "    hello   " }}
+  trimAll: {{ trimAll "$" "$5.00" }}
+  trimPrefix: {{ trimPrefix "-" "-hello" }}
+  trimSuffix: {{ trimSuffix "-" "hello-" }}
+  trunc: {{ trunc 5 "hello world" }}
+  contains: {{contains "cat" "catch"}}
+  cat: {{cat "hello" "beautiful" "world"}}
+  indent: {{indent 4 "\na\nb\nc"}}
+  nindent: {{nindent 4 "a\nb\nc"}}
+  replace: {{"I Am Henry VIII" | replace " " "-"}}
+  toStrings: {{list 1 2 3 | toStrings}}
+  toDecimal: {{"0777" | toDecimal
+}}
+  toJson: {{toJson .Values.Item
+}}
+  toPrettyJson: {{toPrettyJson .Values.Item
+  }}
+
+  toRawJson: {{toRawJson .Values.Item }}
+  {{- $person := .Files.Get "yamls/person.yaml" | fromYaml }}
+  greeting: |
+    Hi, my name is {{ $person.name }} and I am {{ $person.age }} years old.
+    My hobbies are {{ range $person.hobbies }}{{ . }}{{ end }}.
+  {{- $person := .Files.Get "jsons/person.json" | fromJson }}
+  greeting: |
+    Hi, my name is {{ $person.name }} and I am {{ $person.age }} years old.
+    My hobbies are {{ range $person.hobbies }}{{ . }}{{ end }}.
+  get: {{ get .Values.src "overwrite" }}
+  set: {{ $a := set .Values.src "overwrite" "new" }}
+  set: {{ printf "%v" $a }}
+  get: {{ get $a "overwrite" }}
+  unset: {{ unset $a "overwrite" }}
+  get: {{ get $a "overwrite" }}
+  hasKey: {{ hasKey $a "overwrite" }}
+  pluck: {{ pluck "key" .Values.dst .Values.src }}
+  keys: {{ keys .Values.dst }}
+  values: {{ values .Values.dst }}
+  objects: | {{ nindent 4 .Values.objects | toString }}

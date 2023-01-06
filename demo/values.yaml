@@ -1,0 +1,44 @@
+dst:
+  default: default
+  overwrite: me
+  key: true
+
+src:
+  overwrite: overwritten
+  key: false
+
+Item: 
+  a: b
+Name: youngstone
+NumberDogs: 5
+# fullnameOverride: full
+# nameOverride: override
+long: a---------
+favoriteDrink: coffee
+SecretProviderClass:
+  enable: false
+  provider: azure
+  parameters:
+    keyvaultName: KEYVAULT_NAME
+    # Azure AD tenant ID. Received when we created the SP.
+    tenantId: SERVICE_PRINCIPAL_TENANT_ID
+    # List of secrets to pull from the key vault 
+    objects: |
+      array:
+        - |
+          objectName: key-vault-secret-1
+          objectType: secret
+        - |
+          objectName: key-vault-secret-2
+          objectType: secret
+
+
+
+objects: |
+      array:
+        - |
+          objectName: key-vault-secret-1
+          objectType: secret
+        - |
+          objectName: key-vault-secret-2
+          objectType: secret
