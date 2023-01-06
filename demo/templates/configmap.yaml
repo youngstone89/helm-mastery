@@ -75,4 +75,4 @@ data:
   pluck: {{ pluck "key" .Values.dst .Values.src }}
   keys: {{ keys .Values.dst }}
   values: {{ values .Values.dst }}
-  objects: | {{ nindent 4 .Values.objects | toString }}
+  objects: | {{ nindent 4 .Values.objects }}
