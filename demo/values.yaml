@@ -15,15 +15,9 @@ NumberDogs: 5
 # nameOverride: override
 long: a---------
 favoriteDrink: coffee
-SecretProviderClass:
-  enable: false
-  provider: azure
-  parameters:
-    keyvaultName: KEYVAULT_NAME
-    # Azure AD tenant ID. Received when we created the SP.
-    tenantId: SERVICE_PRINCIPAL_TENANT_ID
-    # List of secrets to pull from the key vault 
-    objects: |
+
+
+objects: |
       array:
         - |
           objectName: key-vault-secret-1
@@ -34,7 +28,15 @@ SecretProviderClass:
 
 
 
-objects: |
+SecretProviderClass:
+  enable: true
+  provider: azure
+  parameters:
+    keyvaultName: KEYVAULT_NAME
+    # Azure AD tenant ID. Received when we created the SP.
+    tenantId: SERVICE_PRINCIPAL_TENANT_ID
+    # List of secrets to pull from the key vault 
+    objects: |
       array:
         - |
           objectName: key-vault-secret-1
